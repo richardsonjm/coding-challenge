@@ -8,7 +8,7 @@ tweets_raw.each_line do |line|
   line_json = JSON.parse(line)
   text = line_json["text"]
   unicode_counter += 1 unless text.ascii_only?
-  clean_text = text.encode(Encoding.find('ASCII'), invalid: :replace, undef: :replace, replace: '').dump.gsub(/(\\[abfmntr"'\/]|\"|^"|"$)/, '').gsub(/\\\//, '')
+  clean_text = text.gsub(/[^\x00-\x7F]/, '').dump.gsub(/(\\[abfmntr"'\/]|\"|^"|"$)/, '').gsub(/\\\//, '')
   timestamp = line_json["created_at"]
   tweets_clean.write("#{clean_text} (timestamp: #{timestamp})\n")
 end
