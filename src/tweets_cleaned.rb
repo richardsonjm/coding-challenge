@@ -16,3 +16,9 @@ end
 tweets_clean.write("\n")
 tweets_clean.write("#{unicode_counter.to_s} tweets contained unicode.")
 tweets_clean.close
+
+matrix = []
+File.read(tweets_clean).each_line do |line|
+  hashtags = line.scan(/#([A-Za-z0-9]+)/).flatten
+  p hashtags if hashtags.any?
+end
