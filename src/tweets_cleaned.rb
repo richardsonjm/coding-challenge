@@ -1,4 +1,4 @@
-require 'json'
+require_relative '../config/environment.rb'
 
 tweets_raw = File.read('./tweet_input/tweets.txt')
 tweets_clean = File.open('./tweet_output/ft1.txt', 'w')
@@ -17,8 +17,10 @@ tweets_clean.write("\n")
 tweets_clean.write("#{unicode_counter.to_s} tweets contained unicode.")
 tweets_clean.close
 
-matrix = []
 File.read(tweets_clean).each_line do |line|
   hashtags = line.scan(/#([A-Za-z0-9]+)/).flatten
   p hashtags if hashtags.any?
+  ug = RGL::DirectedAdjacencyGraph[hashtags.join(', ')]
+  # ug = RGL::DirectedAdjacencyGraph[1,2 ,2,3 ,2,4, 4,5, 6,4, 1,6]
+  p ug
 end
