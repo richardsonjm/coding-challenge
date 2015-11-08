@@ -1,6 +1,6 @@
 require_relative '../config/environment.rb'
 
-class TweetCleaner
+class TweetsCleaner
   def initialize(source, destiniation)
     @unicode_count = 0
     @raw = File.read(source)
