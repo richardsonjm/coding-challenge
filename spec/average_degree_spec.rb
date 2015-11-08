@@ -17,11 +17,12 @@ describe AverageDegree do
       allow(foo).to receive(:write)
       timestamp = DateTime.strptime("Thu Oct 29 17:51:50 +0000 2015", "%a %b %d %k:%M:%S %z %Y")
       @average_degree.instance_variable_set(:@timestamp, timestamp)
-      @average_degree.instance_variable_set(:@hashtag_sets, [['foo', 'bar']])
-      @average_degree.instance_variable_set(:@hashtags, ['foo', 'bar'])
+      @average_degree.instance_variable_set(:@nodes, ['foo', 'bar'])
+      @average_degree.instance_variable_set(:@edges, [['foo', 'bar']])
       @average_degree.instance_variable_set(:@destination, foo)
       @average_degree.avg_degree(timestamp, ['foo', 'bar'])
-      expect(@average_degree.instance_variable_get(:@hashtags)).to eq ['foo', 'bar']
+      expect(@average_degree.instance_variable_get(:@nodes)).to eq ['foo', 'bar']
+      expect(@average_degree.instance_variable_get(:@edges)).to eq [['foo', 'bar']]
     end
   end
 end
