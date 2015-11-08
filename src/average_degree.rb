@@ -1,10 +1,69 @@
+require_relative '../config/environment.rb'
 
+HASHTAGS_SETS = []
+HASHTAGS = []
 
-
-File.read(tweets_clean).each_line do |line|
-  hashtags = line.scan(/#([A-Za-z0-9]+)/).flatten
+File.read('./tweet_output/ft1.txt').each_line do |line|
+  timestamp = DateTime.strptime(line.match(/(?<=timestamp: ).+/).to_s, "%a %b %d %k:%M:%S %z %Y")
+  p timestamp
+  hashtags = line.scan(/#([A-Za-z0-9]+)/).flatten.collect {|hashtag| hashtag.downcase}
   p hashtags if hashtags.any?
-  ug = RGL::DirectedAdjacencyGraph[hashtags.join(', ')]
-  # ug = RGL::DirectedAdjacencyGraph[1,2 ,2,3 ,2,4, 4,5, 6,4, 1,6]
-  p ug
+  if hashtags.count > 1
+    HASHTAGS_SETS << hashtags
+    HASHTAGS.concat(hashtags)
+  end
 end
+
+p HASHTAGS_SETS
+p HASHTAGS
+
+
+
+
+# def dup_hash(ary)
+#   ary.inject(Hash.new(0)) { |h,e| h[e] += 1; h }.select {
+#     |k,v| v > 1 }.inject({}) { |r, e| r[e.first] = e.last; r }
+# end
+
+# dingo = HASHTAGS.inject(Hash.new(0)) { |h,e| h[e] += 1; h }.select {
+#     |k,v| v > 1 }.inject({}) { |r, e| r[e.first] = e.last; r }
+
+# p dingo
+
+# ADJ = { A => [B,C], B => [A,D], C => [A,D], D => [B,C], E => [D] }
+  # edge_list[hashtags[0]] = hashtags[1..-1] if (hashtags && hashtags.count > 1)
+
+    # while i < hashtags.count && hashtags[i +1] != nil
+    #   edge_list[hashtags[i]] = hashtags[i+1]
+    #   i+=1
+    # end
+# class Node
+#   attr_accessor :neighbors, :datum
+
+#   def initialize(datum, *neighbors)
+#     @neighbors = neighbors
+#     @datum = datum
+#   end
+
+#    def inspect
+#     "#{datum} -> [#{neighbors.map(&:datum).join(", ")}]"
+#   end
+# end
+
+# #we get all the cool methods from Array and Enumerable!
+# class Graph < Array; end
+
+
+# node_a = Node.new(:hello)
+# node_b = Node.new(:world, node_a)
+# node_c = Node.new(:im_out_of_strings, node_b)
+# node_a.neighbors << node_c
+
+# a_graph = Graph.new([
+#   node_a,
+#   node_b,
+#   node_c
+# ])
+
+# p a_graph
+
