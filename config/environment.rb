@@ -1,7 +1,3 @@
-require 'rubygems'
-require 'bundler/setup'
-require 'json'
-require 'rgl/adjacency'
-require 'rgl/dot'
+require 'JSON'
 
-Bundler.require
+require_relative '../src/tweets_cleaner.rb'
