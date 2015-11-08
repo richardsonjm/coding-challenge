@@ -27,7 +27,7 @@ class AverageDegree
   end
 
   def record_avg_degree(edges, nodes)
-    @destination.write((edges/nodes).to_s + "\n")
+    @destination.write((edges/nodes.to_f).round(2).to_s + "\n")
   end
 
   def run
