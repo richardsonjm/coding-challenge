@@ -2,20 +2,26 @@ require_relative '../config/environment.rb'
 
 HASHTAGS_SETS = []
 HASHTAGS = []
+TIMESTAMPS = []
 
 File.read('./tweet_output/ft1.txt').each_line do |line|
+  next if line == "\n"
+  next if line.include? "tweets contained unicode"
   timestamp = DateTime.strptime(line.match(/(?<=timestamp: ).+/).to_s, "%a %b %d %k:%M:%S %z %Y")
-  p timestamp
   hashtags = line.scan(/#([A-Za-z0-9]+)/).flatten.collect {|hashtag| hashtag.downcase}
   p hashtags if hashtags.any?
-  if hashtags.count > 1
+  if (hashtags.count > 1) && (timestamp < (TIMESTAMPS.first + 60))
     HASHTAGS_SETS << hashtags
     HASHTAGS.concat(hashtags)
+    TIMESTAMPS << timestamp
+  else
+    TIMESTAMPS.shift
+    delete_list = HASHTAGS_SETS.shift
+    delete_list.each do |del|
+      HASHTAGS.delete_at(HASHTAGS.index(del))
+    end
   end
 end
-
-p HASHTAGS_SETS
-p HASHTAGS
 
 
 
