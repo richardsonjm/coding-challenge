@@ -1,8 +1,9 @@
 require_relative '../config/environment.rb'
 
 class AverageDegree
-  def initialize(source, time)
-    @source = source
+  def initialize(source, destination, time)
+    @source = File.read(source)
+    @destination = File.open(destination, 'w')
     @hashtag_sets = []
     @hashtags = []
     @timestamps = []
@@ -14,7 +15,7 @@ class AverageDegree
     if timestamp < (@timestamps.first + @time)
       @hashtag_sets << hashtags
       @hashtags.concat(hashtags)
-      p @hashtags.count / @hashtag_sets.count
+      record_avg_degree(@hashtags.count, @hashtag_sets.count)
     else
       @timestamps.shift
       delete_list = @hashtag_sets.shift
@@ -25,8 +26,12 @@ class AverageDegree
     end
   end
 
+  def record_avg_degree(edges, nodes)
+    @destination.write((edges/nodes).to_s + "\n")
+  end
+
   def run
-    File.read(@source).each_line do |line|
+    @source.each_line do |line|
       next if line == "\n"
       next if line.include? "tweets contained unicode"
       date_string = line.match(/(?<=timestamp: ).+/).to_s
