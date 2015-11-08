@@ -9,6 +9,7 @@ class AverageDegree
     @timestamps = []
     @time = time
     @last_avg = 0.to_s
+    @timestamp = nil
   end
 
   def avg_degree(timestamp, hashtags)
@@ -36,9 +37,9 @@ class AverageDegree
       next if line == "\n"
       next if line.include? "tweets contained unicode"
       date_string = line.match(/(?<=timestamp: ).+/).to_s
-      timestamp = DateTime.strptime(date_string, "%a %b %d %k:%M:%S %z %Y") if date_string =~ /\d/
+      @timestamp = DateTime.strptime(date_string, "%a %b %d %k:%M:%S %z %Y") if date_string =~ /\d/
       hashtags = line.scan(/#([A-Za-z0-9]+)/).flatten.collect {|hashtag| hashtag.downcase}
-      avg_degree(timestamp, hashtags)
+      avg_degree(@timestamp, hashtags)
     end
   end
 end
