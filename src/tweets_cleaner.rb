@@ -16,7 +16,17 @@ class TweetsCleaner
   end
 
   def remove_escape_characters(text)
-    text.dump.gsub(/(\\[abfmntr"'\/]|\"|^"|"$)/, '').gsub(/\\\//, '')
+    text.dump.
+      gsub(/\\\//, '/').
+      gsub(/\\\\/, "\\").
+      gsub(/\/'/, "'").
+      gsub(/\\\"/, "\"").
+      gsub(/(\\[abfmntr])/, ' ').
+      gsub("  ", " ")
+  end
+
+  def remove_quotes(text)
+    text.gsub(/^"|"$/, '')
   end
 
   def clean_text(text)
@@ -24,6 +34,7 @@ class TweetsCleaner
     @unicode_count += 1 unless text.ascii_only?
     text = remove_unicode(text)
     text = remove_escape_characters(text)
+    text = remove_quotes(text)
   end
 
   def write_clean_line(text, timestamp)
