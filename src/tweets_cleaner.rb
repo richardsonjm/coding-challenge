@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 require_relative '../config/environment.rb'
 
 class TweetsCleaner
@@ -57,3 +58,5 @@ class TweetsCleaner
     @cleaned.close
   end
 end
+
+TweetsCleaner.new('./tweet_input/tweets.txt', './tweet_output/ft1.txt').run

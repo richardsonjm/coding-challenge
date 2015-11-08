@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 require_relative '../config/environment.rb'
 
 class AverageDegree
@@ -61,3 +62,5 @@ class AverageDegree
     end
   end
 end
+
+AverageDegree.new('./tweet_output/ft1.txt', './tweet_output/ft2.txt', 60).run
