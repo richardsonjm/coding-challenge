@@ -12,6 +12,11 @@ The tools consist of the following two classes:
 2. AverageDegree: calculates the average degree of a vertex in a Twitter hashtag graph for the last 60 seconds, and update this each time a new tweet appears.
 
 
+## Dependencies
+
+You must install `bundler` before and run `bundle install` before attempting to run shell script. See below for instructions on how to install and run bundler commands.
+
+
 ## Tests
 
 Tests for both features are written in rspec. To insall rspec, first install bundler on you system with the following command:
