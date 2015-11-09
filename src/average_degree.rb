@@ -24,10 +24,12 @@ class AverageDegree
     elsif timestamp < (@timestamps.first + @time)
       @destination.write(@current_avg + "\n")
     else
-      @timestamps.shift
-      @tweet_hashtags.shift
-      @destination.write(@current_avg + "\n")
+      while timestamp >= (@timestamps.first + @time)
+        @timestamps.shift
+        @tweet_hashtags.shift
+      end
       reset_nodes_and_edges
+      @timestamps.pop
       avg_degree(timestamp, hashtags)
     end
   end
